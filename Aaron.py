@@ -1,5 +1,5 @@
 #Primera Parte
-# Áaron Rafael Beltre Guillen
+# Aarón Rafael Beltre Guillen
 print("\n\n-----Primera Parte----- \n\n")
 
 nums = [1,3,4,6,7,7,6,12,24,78,100,123]
@@ -18,7 +18,7 @@ print(multiplos3)
 
 
 print("\n\n-----Segunda Parte----- \n\n")
-#2.Operraciones Matematicas
+#2.Operaciones Matematicas
 sum = 0
 producto = 1
 for x in nums:
