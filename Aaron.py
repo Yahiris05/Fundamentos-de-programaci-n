@@ -1,5 +1,5 @@
 #Primera Parte
-# Aarón Rafael Beltre Guillen
+# Aarón Rafael Beltre Guillen 24-1033
 print("\n\n-----Primera Parte----- \n\n")
 
 nums = [1,3,4,6,7,7,6,12,24,78,100,123]
