@@ -1,33 +1,21 @@
-def es_primo(x):
-  cuenta = 0
-  for i in range(x)[1:]:
-      if x%i == 0:
-          cuenta += 1
-  if cuenta == 1:
-      return True
-  return False
+# Leer un texto y realizar las siguientes operaciones:
+Text = input("Ingrese un texto: ") 
 
-a = input("Digite el primer numero: ")
-b = input("Digite el segundo numero: ")
+Capital_letters = Text.upper()  #1) Retornar el texto en Mayusculas
+print("Texto en mayusculas: ", Capital_letters)
 
-c = int(a) - int(b) 
-if c%2 == 0:
-  print("La diferencia es par. Aquí está la suma de dígitos: ", end="")
-  sum = 0
-  for x in a:
-      sum += int(x)
-  for x in b:
-      sum += int(x)
-  print(sum)
+Lowercase = Text.lower()  #2) Retornar el texto en Minusculas
+print ("2) Texto en minusculas:" , Lowercase)
 
-if(es_primo(c)):
-  print("La diferencia es prima. Aquí está el producto: ", end="")
-  print(int(a)*int(b))
+First_two_characters = Text[:2]  #3) Retornar los dos primeros caracteres
+print("3) Dos primeros caracteres: ", First_two_characters)
 
-if c%10 == 4:
-  print("El numero es par. Aquí están los digitos por separado.")
-  for x in a:
-      print(x, end=" ")
-  for x in b:
-      print(x, end=" ")
-  print("\n")
+Last_two_characters = Text[-2:] #4) Retornar los dos últimos caracteres
+print("4) Dos ultimos caracteres: ", Last_two_characters)
+
+Last_character = Text[-1]  if Text else "" #5) Retornar el último caracter
+Repetitions = Text.count (Last_character)
+print ("5) Repeticiones del ultimo caracter: ", Repetitions)
+
+Reversed = Text[::-1]  #6) Retornar el texto invertido
+print ( "6) Texto invertido: ", Reversed)
