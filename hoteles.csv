@@ -1,0 +1,11 @@
+id,Nombre,Tipo_hotel,Descripcion,Rating,precio_noche
+1,Hotel Maravilla,Resort,"Un resort de lujo con vistas al mar",4.8,200
+2,Hotel Vista Bella,Hotel Boutique,"Un hotel boutique con un diseño elegante",4.5,150
+3,Hotel Ciudad Central,Hotel de Ciudad,"Conveniente y céntrico para viajeros de negocios",4.2,120
+4,Hotel Playa Dorada,Resort,"Resort todo incluido en la playa",4.7,250
+5,Hotel Montaña Verde,Hotel Rural,"Hotel en el campo con actividades al aire libre",4.3,100
+6,Hotel Luna Azul,Hotel Boutique,"Hotel con un diseño moderno y servicios exclusivos",4.6,180
+7,Hotel Acapulco Palace,Resort,"Resort con casino y entretenimiento nocturno",4.4,220
+8,Hotel Oasis del Sur,Hotel de Ciudad,"Hotel con excelente ubicación y servicios",4.1,140
+9,Hotel Jardín Secreto,Hotel Rural,"Encantador hotel con jardines extensos",4.7,130
+10,Hotel Gran Vista,Hotel Boutique,"Hotel con vistas panorámicas y spa",4.9,190
