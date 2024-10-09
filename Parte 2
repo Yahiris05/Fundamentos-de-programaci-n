@@ -1,0 +1,57 @@
+class Espacio:
+    def __init__(self, id_espacio):
+        self.id_espacio = id_espacio  # ID o número del espacio
+        self.estado = "Verde"  # Por defecto, el espacio está libre
+        self.siguiente = None  # Apunta al siguiente espacio en la zona
+
+class ZonaParqueo:
+    def __init__(self, nombre_zona):
+        self.nombre_zona = nombre_zona
+        self.cabeza = None  # Primer espacio de la zona
+        self.final = None  # Último espacio de la zona
+
+    def agregar_espacio(self, id_espacio):
+        nuevo_espacio = Espacio(id_espacio)
+        if not self.cabeza:  # Si la zona está vacía
+            self.cabeza = nuevo_espacio
+            self.final = nuevo_espacio
+        else:
+            self.final.siguiente = nuevo_espacio  # Añade el espacio al final de la lista
+            self.final = nuevo_espacio
+
+    def ocupar_espacio(self, id_espacio):
+        actual = self.cabeza
+        while actual:  # Busca el espacio por su ID
+            if actual.id_espacio == id_espacio:
+                actual.estado = "Rojo"  # Marca el espacio como ocupado
+                print(f"Espacio {id_espacio} en zona {self.nombre_zona} ahora está ocupado.")
+                return
+            actual = actual.siguiente
+        print(f"Espacio {id_espacio} no encontrado en zona {self.nombre_zona}.")
+
+    def liberar_espacio(self, id_espacio):
+        actual = self.cabeza
+        while actual:  # Busca el espacio por su ID
+            if actual.id_espacio == id_espacio:
+                actual.estado = "Verde"  # Marca el espacio como libre
+                print(f"Espacio {id_espacio} en zona {self.nombre_zona} ahora está libre.")
+                return
+            actual = actual.siguiente
+        print(f"Espacio {id_espacio} no encontrado en zona {self.nombre_zona}.")
+
+    def mostrar_estado_espacios(self):
+        actual = self.cabeza
+        while actual:
+            print(f"Espacio {actual.id_espacio}: {actual.estado}")
+            actual = actual.siguiente
+
+# Ejemplo de uso
+zona_clientes = ZonaParqueo("Clientes")
+zona_clientes.agregar_espacio(1)
+zona_clientes.agregar_espacio(2)
+zona_clientes.agregar_espacio(3)
+
+zona_clientes.ocupar_espacio(2)
+zona_clientes.mostrar_estado_espacios()
+zona_clientes.liberar_espacio(2)
+zona_clientes.mostrar_estado_espacios()
