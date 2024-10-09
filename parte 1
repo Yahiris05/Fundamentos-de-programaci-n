@@ -1,0 +1,60 @@
+class Pila:
+    def __init__(self):
+        self.items = []
+
+    def apilar(self, item):
+        self.items.append(item)
+
+    def desapilar(self):
+        if not self.esta_vacia():
+            return self.items.pop()
+        return None
+
+    def esta_vacia(self):
+        return len(self.items) == 0
+
+
+class ColaDeVehiculosConPilasPorZona:
+    def __init__(self):
+        self.zonas = {
+            "Clientes": {"pila_in": Pila(), "pila_out": Pila()},
+            "Empleados": {"pila_in": Pila(), "pila_out": Pila()},
+            "Carga/Descarga": {"pila_in": Pila(), "pila_out": Pila()},
+            "Discapacitados/Embarazadas": {"pila_in": Pila(), "pila_out": Pila()},
+            "Corta Duración/Express": {"pila_in": Pila(), "pila_out": Pila()}
+        }
+
+    def entrada_vehiculo(self, zona, vehiculo):
+        if zona in self.zonas:
+            print(f"Vehículo {vehiculo} entrando a la zona {zona}.")
+            self.zonas[zona]["pila_in"].apilar(vehiculo)
+        else:
+            print(f"La zona {zona} no existe.")
+
+    def salida_vehiculo(self, zona):
+        if zona in self.zonas:
+            if self.zonas[zona]["pila_out"].esta_vacia():
+                while not self.zonas[zona]["pila_in"].esta_vacia():
+                    self.zonas[zona]["pila_out"].apilar(self.zonas[zona]["pila_in"].desapilar())
+            vehiculo = self.zonas[zona]["pila_out"].desapilar()
+            if vehiculo:
+                print(f"Vehículo {vehiculo} saliendo de la zona {zona}.")
+            else:
+                print(f"No hay vehículos en la zona {zona}.")
+        else:
+            print(f"La zona {zona} no existe.")
+
+    def mostrar_zonas_vacias(self):
+        for zona, pilas in self.zonas.items():
+            if pilas["pila_in"].esta_vacia() and pilas["pila_out"].esta_vacia():
+                print(f"Zona {zona} está vacía.")
+
+
+# Ejemplo de uso
+parqueo_zonas = ColaDeVehiculosConPilasPorZona()
+parqueo_zonas.entrada_vehiculo("Clientes", "Auto 1")
+parqueo_zonas.entrada_vehiculo("Empleados", "Auto 2")
+parqueo_zonas.entrada_vehiculo("Corta Duración/Express", "Auto 3")
+
+parqueo_zonas.salida_vehiculo("Clientes")  # Salida: Auto 1
+parqueo_zonas.mostrar_zonas_vacias()  # Muestra las zonas vacías
