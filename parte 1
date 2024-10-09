@@ -13,48 +13,77 @@ class Pila:
     def esta_vacia(self):
         return len(self.items) == 0
 
+    def cima(self):
+        if not self.esta_vacia():
+            return self.items[-1]
+        return None
 
-class ColaDeVehiculosConPilasPorZona:
+
+class ColaVehiculos:
     def __init__(self):
-        self.zonas = {
-            "Clientes": {"pila_in": Pila(), "pila_out": Pila()},
-            "Empleados": {"pila_in": Pila(), "pila_out": Pila()},
-            "Carga/Descarga": {"pila_in": Pila(), "pila_out": Pila()},
-            "Discapacitados/Embarazadas": {"pila_in": Pila(), "pila_out": Pila()},
-            "Corta Duración/Express": {"pila_in": Pila(), "pila_out": Pila()}
-        }
+        self.pila_in = Pila()
+        self.pila_out = Pila()
 
-    def entrada_vehiculo(self, zona, vehiculo):
-        if zona in self.zonas:
-            print(f"Vehículo {vehiculo} entrando a la zona {zona}.")
-            self.zonas[zona]["pila_in"].apilar(vehiculo)
+    def llegar_vehiculo(self, placa, tipo):
+        vehiculo = {'placa': placa, 'tipo': tipo}
+        self.pila_in.apilar(vehiculo)
+
+    def estacionar_vehiculo(self):
+        if self.pila_out.esta_vacia():
+            while not self.pila_in.esta_vacia():
+                self.pila_out.apilar(self.pila_in.desapilar())
+        return self.pila_out.desapilar()
+
+    def esta_vacia(self):
+        return self.pila_in.esta_vacia() and self.pila_out.esta_vacia()
+
+
+class NodoEstacionamiento:
+    def __init__(self, placa, tipo):
+        self.placa = placa
+        self.tipo = tipo
+        self.siguiente = None
+
+
+class ZonaEstacionamiento:
+    def __init__(self, nombre_zona):
+        self.nombre_zona = nombre_zona
+        self.cabeza = None
+        self.final = None
+
+    def ocupar_espacio(self, placa, tipo):
+        nuevo_vehiculo = NodoEstacionamiento(placa, tipo)
+        if not self.cabeza:
+            self.cabeza = nuevo_vehiculo
+            self.final = nuevo_vehiculo
         else:
-            print(f"La zona {zona} no existe.")
+            self.final.siguiente = nuevo_vehiculo
+            self.final = nuevo_vehiculo
 
-    def salida_vehiculo(self, zona):
-        if zona in self.zonas:
-            if self.zonas[zona]["pila_out"].esta_vacia():
-                while not self.zonas[zona]["pila_in"].esta_vacia():
-                    self.zonas[zona]["pila_out"].apilar(self.zonas[zona]["pila_in"].desapilar())
-            vehiculo = self.zonas[zona]["pila_out"].desapilar()
-            if vehiculo:
-                print(f"Vehículo {vehiculo} saliendo de la zona {zona}.")
-            else:
-                print(f"No hay vehículos en la zona {zona}.")
-        else:
-            print(f"La zona {zona} no existe.")
-
-    def mostrar_zonas_vacias(self):
-        for zona, pilas in self.zonas.items():
-            if pilas["pila_in"].esta_vacia() and pilas["pila_out"].esta_vacia():
-                print(f"Zona {zona} está vacía.")
+    def mostrar_zona(self):
+        actual = self.cabeza
+        print(f"Zona de Estacionamiento: {self.nombre_zona}")
+        while actual:
+            print(f"Vehículo Placa: {actual.placa}, Tipo: {actual.tipo}", end=" -> ")
+            actual = actual.siguiente
+        print("Libre")
 
 
 # Ejemplo de uso
-parqueo_zonas = ColaDeVehiculosConPilasPorZona()
-parqueo_zonas.entrada_vehiculo("Clientes", "Auto 1")
-parqueo_zonas.entrada_vehiculo("Empleados", "Auto 2")
-parqueo_zonas.entrada_vehiculo("Corta Duración/Express", "Auto 3")
 
-parqueo_zonas.salida_vehiculo("Clientes")  # Salida: Auto 1
-parqueo_zonas.mostrar_zonas_vacias()  # Muestra las zonas vacías
+# Crear la cola de vehículos que llegan al estacionamiento
+cola_vehiculos = ColaVehiculos()
+cola_vehiculos.llegar_vehiculo("ABC123", "Sedan")
+cola_vehiculos.llegar_vehiculo("DEF456", "SUV")
+cola_vehiculos.llegar_vehiculo("GHI789", "Motocicleta")
+
+# Crear la zona de estacionamiento para los clientes
+zona_clientes = ZonaEstacionamiento("Clientes")
+
+# Estacionar vehículos en la zona de clientes según el orden de llegada
+while not cola_vehiculos.esta_vacia():
+    vehiculo = cola_vehiculos.estacionar_vehiculo()
+    zona_clientes.ocupar_espacio(vehiculo['placa'], vehiculo['tipo'])
+
+# Mostrar el estado de ocupación de la zona de clientes
+zona_clientes.mostrar_zona()
